@@ -6,9 +6,9 @@ Symfony2 Bundle that permit make web services based on visual interface. The dev
 1) Installing the App
 ----------------------------------
 
-php app/console d:d:create
-php app/console d:s:u --force
-php app/console d:f:l
+php app/console d:d:create <br>
+php app/console d:s:u --force<br>
+php app/console d:f:l<br>
 
 
 2) Login in the App
