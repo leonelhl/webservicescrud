@@ -14,7 +14,7 @@ php app/console d:f:l<br>
 2) Login in the App
 -------------------------------------
 
-User: admin
+User: admin<br>
 Pass: 1234
 
 3) Getting started with WebService Bundle
