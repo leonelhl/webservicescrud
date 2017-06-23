@@ -1,0 +1,7 @@
+﻿Fue necesario incluirle unas líneas de codigo a la clase:
+
+D:\www\Testing\Xalix\vendor\friendsofsymfony\rest-bundle\FOS\RestBundle\EventListener\BodyListener.php 
+del RESTBundle
+
+Fue necesario porque entraba en conflicto con el servidor SOAP, es decir el cliente realizaba una petici�n GET a la direcci�n del WSDL y devolv�a correctamente el resultado, pero al realizar la petici�n POST para consumir del WSDL mostraba error 
+400 Bad Request

@@ -1,0 +1,46 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{%block body%}
+<script type="text/javascript">
+    //para seleccionar la opcion en la barra de navegacion
+    $(function() {
+        $(".home").addClass("active");
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>
+                   {{'page.titleAdmin'|trans}}
+                </h1>
+            </div>
+        </div>   
+<hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-4">  
+                    <a href="{{path('ws')}}" class="thumbnail" style="text-decoration:none;text-align:center; height:200px"><span class="glyphicon glyphicon-cog" style="font-size:180px"></span></a>
+                    <div class="caption">
+                        <h3>{{'menu.webservice'|trans}} {{'menu.manager'|trans}}</h3>
+                        <p>{{'backend.text1'|trans}}</p>                    
+                    </div>
+                </div>
+                <div class="col-lg-4">  
+
+                    <a href="{{ path('uddi') }}" class="thumbnail" style="text-decoration:none;text-align:center; height:200px"><span class="glyphicon glyphicon-globe" style="font-size:180px"></span></a>
+                    <div class="caption">
+                        <h3>{{'page.titleUddi'|trans}}</h3>
+                        <p>{{'backend.text2'|trans}}</p>                    
+                    </div>
+                </div>
+                <div class="col-lg-4">  
+<a href="{{ path('protocol') }}" class="thumbnail" style="text-decoration:none;text-align:center; height:200px"><span class="glyphicon glyphicon-off" style="font-size:180px"></span></a>
+                   
+                    <div class="caption">
+                        <h3>{{'menu.protocol'|trans}}</h3>
+                        <p>{{'backend.text3'|trans}}</p>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}

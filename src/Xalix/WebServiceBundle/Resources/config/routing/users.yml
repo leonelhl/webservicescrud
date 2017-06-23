@@ -1,0 +1,30 @@
+users:
+    pattern:  /
+    defaults: { _controller: "WebServiceBundle:Users:index" }
+
+users_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WebServiceBundle:Users:show" }
+
+users_new:
+    pattern:  /new
+    defaults: { _controller: "WebServiceBundle:Users:new" }
+
+users_create:
+    pattern:  /create
+    defaults: { _controller: "WebServiceBundle:Users:create" }
+    requirements: { _method: post }
+
+users_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WebServiceBundle:Users:edit" }
+
+users_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WebServiceBundle:Users:update" }
+    requirements: { _method: post|put }
+
+users_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WebServiceBundle:Users:delete" }
+    requirements: { _method: post|delete }

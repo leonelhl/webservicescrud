@@ -1,0 +1,53 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script type="text/javascript">
+    //para seleccionar la opcion en la barra de navegacion
+    $(function() {
+        $(".security").addClass("active");
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6"><h2>Crear Token</h2></div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-10 col-offset-1">
+{{ form_start(form) }}
+{{ form_row(form.token) }}
+<br>
+<a class="btn btn-primary generar">Generar Token</a>
+{{ form_widget(form.submit, {'label':'Crear', 'attr':{'class':'btn btn-primary'}}) }}
+{{ form_rest(form) }}
+{{ form_end(form) }}
+<br>
+<a href="{{path('token')}}" class="btn btn-default">Volver al listado</a>
+  
+
+</div>
+</div>
+<script type="text/javascript">
+ $(function() {
+  function randomInteger(below) {
+        return Math.floor(Math.random() * below);
+    }
+
+    $('.generar').click(function(){
+        var alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'n', 'm', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+        var randomStr = '';
+        while (randomStr.length <= 31){
+            var random_number = randomInteger(50);
+            var caracter = '';
+            if(random_number <= 25){
+                caracter = alpha[random_number];
+            }else{
+                caracter = randomInteger(9);
+            }
+            randomStr += caracter;
+        }
+        $('#xalix_webservicebundle_token_token').val(randomStr);
+    });
+    });
+    </script>
+{% endblock %}

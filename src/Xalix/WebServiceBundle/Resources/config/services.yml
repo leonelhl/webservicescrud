@@ -1,0 +1,7 @@
+parameters:
+    dir: '%kernel.root_dir%/cache/'
+
+services:
+    service.security:
+        class: Xalix\WebServiceBundle\Util\ServiceSecurity
+        arguments: [@service_container]

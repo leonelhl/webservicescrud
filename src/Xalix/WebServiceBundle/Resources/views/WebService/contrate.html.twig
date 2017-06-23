@@ -1,0 +1,46 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script>
+    $(function() {
+       $(".list").addClass("active");
+        prettyPrint();
+        $('.send').click(function() {
+            $('#webservice_submit').click();
+        });
+    });
+    </script>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 ">
+                    <h1>
+           {{'page.titleContrat'|trans}}{%if wsdl and wadl %}s{%endif%} {{'page.titleContrat2'|trans}} <b>{{entity.name}}</b>
+                    </h1>
+                </div>
+                <div class="col-lg-3 col-offset-1">
+                    <button  style="margin-top:11%" title="{{'actions.accept'|trans}}" class="send btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-ok"></span></button>
+                    <a href="{%if way == 'edit'%}{{path('ws_edit', { 'id': entity.id })}}{%else%}{{path('ws_new')}}{%endif%}"><button  style="margin-top:11%" title="{{'modal.cancel'|trans}}" class="btn btn-danger btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-remove"></span></button></a>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+        {%if wsdl %}
+                    <div class="{%if wsdl and wadl %}col-lg-6{%else%}col-lg-12{%endif%}"> <h4>WSDL [SOAP]</h4>
+                        <pre class="prettyprint linenums">{{wsdl}}
+                        </pre>
+                    </div>
+            {%endif%}
+            {%if wadl %}
+                    <div class="{%if wsdl and wadl %}col-lg-6{%else%}col-lg-12{%endif%}"> <h4>WADL [REST]</h4>
+                        <pre class="prettyprint linenums">{{wadl}}
+                        </pre>
+                    </div>
+            {%endif%}
+                </div>
+            </div>
+            <div style="display: none">
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+                </div>
+    {% endblock %}

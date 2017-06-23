@@ -1,0 +1,300 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script type="text/javascript">
+    $(function() {
+        $(".list").addClass("active");
+        $(".delete").fadeOut(15000);
+        $(".find").click(function() {
+            if ($(".find2").css('display') === 'none') {
+                $(".find2").fadeIn();
+            } else {
+                $(".find2").fadeOut();
+                $('#system-search').val('');
+                $('.table-list-search tbody tr').show();
+                $('.search-sf').remove();
+            }
+        });
+
+        //Para activar-desactivar los SW
+        $(".accion").click(function() {
+            if ($(this).children().attr('class') === 'activate glyphicon glyphicon-off') {
+                $(".alert-info").html('<h4> {{'message.webservice'|trans}} <b>' + $(this).attr("id") + ' </b>{{'message.isactive'|trans}} <hr/>{{'message.candeactive'|trans}}</h4>');
+                $(".accion2").html('{{'modal.deactive'|trans}}');
+                $(".accion2").attr("href", $(this).children().attr('id'));
+                $(".accion2").attr("class", "accion2 btn btn-default");
+            } else {
+                $(".alert-info").html('<h4> {{'message.webservice'|trans}} <b>' + $(this).attr("id") + ' </b>{{'message.isdeactive'|trans}} <hr/>{{'message.canactive'|trans}}</h4>');
+                $(".accion2").html('{{'modal.active'|trans}}');
+                $(".accion2").attr("href", $(this).children().attr('id'));
+                $(".accion2").attr("class", "accion2 btn btn-info");
+            }
+        });
+
+        $('#system-search').keyup(function() {
+            var that = this;
+            // affect all table rows on in systems table
+            var tableBody = $('.table-list-search tbody');
+            var tableRowsClass = $('.table-list-search tbody tr');
+            $('.search-sf').remove();
+            tableRowsClass.each(function(i, val) {
+
+                //Lower text for case insensitive
+                var rowText = $(val).text().toLowerCase();
+                var inputText = $(that).val().toLowerCase();
+                if (inputText != '')
+                {
+                    $('.search-query-sf').remove();
+                    /*
+                     * tableBody.prepend('<tr class="search-query-sf"><td colspan="6"><strong>Searching for: "'
+                     + $(that).val()
+                     + '"</strong></td></tr>');
+                     * 
+                     */
+                }
+                else
+                {
+                    $('.search-query-sf').remove();
+                }
+
+                if (rowText.indexOf(inputText) == -1)
+                {
+                    //hide rows
+                    tableRowsClass.eq(i).hide();
+
+                }
+                else
+                {
+                    $('.search-sf').remove();
+                    tableRowsClass.eq(i).show();
+                }
+            });
+            //all tr elements are hidden
+            if (tableRowsClass.children(':visible').length == 0)
+            {
+                tableBody.append('<tr class="search-sf"><td class="text-muted" colspan="6">{{'search.noresult'|trans}}</td></tr>');
+            }
+        });
+
+    });
+    </script>
+        <p/>
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-lg-5">
+                    <a href="{{ path('ws_new') }}"><button type="button" class="btn btn-primary btn-large btn-block">{{'table.addws'|trans}}</button></a>
+                </div>
+                {% if search %}
+                <div class="col-1 col-lg-1">
+                    <button style="margin-left:-20px" title="{{'search.form'|trans}}" type="button" class="find btn btn-default btn-small"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+                <div class="col-1 col-lg-1">
+                    <a href="{{path('ws')}}"><button style="margin-left:-60px" title="{{'actions.back'|trans}}" type="button" class="btn btn-default btn-small"><span class="glyphicon glyphicon-list"></span></button></a>
+                </div>
+                {%else%}
+                {% if entities %}
+                <div class="col-1 col-lg-1">
+                    <button style="margin-left:-20px" title="{{'search.form'|trans}}" type="button" class="find btn btn-default btn-small"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+{%endif%}
+{%endif%}
+
+
+{% for mensaje in app.session.flashbag.get('info') %}
+                <div  class="col-lg-6 delete alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.webservice'|trans}} <b>{{ mensaje }}</b> {{'message.typedelete'|trans}}
+                </div>
+             {% endfor %}
+                {% for mensaje in app.session.flashbag.get('updateUriOk') %}
+                    <div  class="col-lg-6 delete alert alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{'message.updateuriok'|trans}}
+                    </div>
+                {% endfor %}
+                {% for mensaje in app.session.flashbag.get('updateUriError') %}
+                    <div  class="col-lg-6 delete alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{'message.updateurierror'|trans}}
+                    </div>
+                {% endfor %}
+            {% for mensaje in app.session.flashbag.get('error') %}
+                <div  class="col-lg-6 delete alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.problem'|trans}} {{'message.webservice'|trans}} <b>{{ mensaje }}</b> {{'message.nodelete'|trans}}
+                </div>
+             {% endfor %}
+            {% for mensaje in app.session.flashbag.get('purge') %}
+                <div  class="col-lg-6 delete alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+               {{'message.webservice'|trans}} <b>{{ mensaje }}</b> {{'message.was'|trans}} <b>{{'message.purge'|trans}}</b> .{{'message.problem2'|trans}}
+                </div>
+             {% endfor %}
+            {% for mensaje in app.session.flashbag.get('able') %}
+                <div  class="col-lg-6 delete alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.webservice'|trans}} <b>{{ mensaje }}</b> {{'message.was'|trans}} <b>{{'protocol.able'|trans|lower}}</b>.
+                </div>
+             {% endfor %}
+           {% for mensaje in app.session.flashbag.get('unable') %}
+                <div  class="col-lg-6 delete alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.webservice'|trans}} <b>{{ mensaje }}</b> {{'message.was'|trans}} <b>{{'protocol.unable'|trans|lower}}</b>.
+                </div>
+             {% endfor %}
+            </div>
+            <hr/>
+            <div style="display:none" class="find2">
+                <div style="margin-top: 2%" class="row" id="find">
+                    <form action="{{ path('ws_search') }}" method="POST">
+                        <div style="padding-left:20px" class="col-6 col-lg-6 col-offset-2">
+                            <input type="text" class="form-control" id="system-search" name="q" placeholder="{{'search.form'|trans}}" >
+                        </div>
+                        <div style="margin-left:-20px" class="col-2 col-lg-2">
+                            <button style="height: 36px" class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-search"> {{'search.form'|trans}} </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <hr/>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 ">
+
+                    <table id="table" class="table table-list-search table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{'table.service'|trans}}</th>
+                                <th>{{'table.description'|trans}}</th>
+                                <th>{{'table.protocol'|trans}}</th>
+                                <th>{{'table.estate'|trans}}</th>
+                                <th>{{'table.actionType'|trans}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+        {% for entity in entities %}
+                            <tr class="{{entity.id}}">
+                                <td>{{loop.index}}</td>
+                                <td>{% if entity.isToken or entity.isUser %}<span style="color:blue" class="glyphicon glyphicon-lock"></span> {%endif%}<a href="{{ path('ws_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>             
+                                <td>{{ entity.description }}</td>
+                                <td id="{{entity.id}}">{% if entity.protocol | length == 2 %}SOAP | REST{% else %}{% for prot in entity.protocol %}{{prot.name}}{% endfor %}{% endif %}</td>
+                                <td>{% if entity.isActive %}<a data-toggle="modal" href="#myModal2" id="{{entity.name}}" class="accion btn label label-info"><span id="{{ path('ws_configure', { 'id': entity.id, 'action':'unable' }) }}" class="activate glyphicon glyphicon-off" title="{{'protocol.able'|trans}}" ></span></a>{% else %}<a data-toggle="modal" href="#myModal2" id="{{entity.name}}" class="accion btn label label-default"><span id="{{ path('ws_configure', { 'id': entity.id, 'action':'able' }) }}" class="glyphicon glyphicon-off" title="{{'protocol.unable'|trans}}"></span></a>{% endif %}</td>                                   
+                                <td> 
+                                    <a href="{{ path('ws_edit', { 'id': entity.id }) }}"><span title="{{'actions.edit'|trans}}" class="glyphicon glyphicon-pencil"></span></a>                                 
+                                    <a class="eliminar" id="{{ entity.name }}" data-toggle="modal" href="#myModal" ><span id="{{ path('ws_delete', { 'id': entity.id }) }}" class="glyphicon glyphicon-trash" title="{{'table.deletews'|trans}}" ></span></a>
+                                    <a href="{{ path('ws_security', { 'id': entity.id }) }}"><span title="{{'form.security'|trans}}" class="glyphicon glyphicon-fire"></span></a>                                 
+                                </td>
+                            </tr>
+                        <script type="text/javascript">
+                            $(function() {
+
+                                /* Función que permite al dar click en un span de eliminación mostrar el nombre
+                                 * del SW en la pantalla de confirmación además de colocar la dirección a eliminar
+                                 * en el boton de elminación.
+                                 */
+                                $(".eliminar").click(function() {
+                                    $(".mensage").html('<h4>{{'message.delete'|trans}} <b>' + $(this).attr("id") + ' </b>?</h4>');
+                                    $("form").attr('action', $(this).children().attr('id'));
+                                });
+
+                                //Para mostrar el boton eliminar al lado del cancelar
+                                $("form").attr("class", "enlinea");
+                            });
+                            </script>
+            {% else %}
+                            <script type="text/javascript">
+                                $(function() {
+                                    $("#table").attr("class", "hidden");
+                                });
+                                </script>    
+                                 {% if search %}
+                                <div class="jumbotron">{{'search.noresult'|trans}}</div>
+
+{%else%}
+                                <div class="jumbotron">{{'table.noresult2'|trans}}</div>
+
+{%endif%}
+
+                      {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+        {%if entities%}
+{%if paginador.firstPage != paginador.lastPage%}
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <ul class="pagination pagination-large">
+   {% if paginador.currentPage == paginador.firstPage %}                                
+                                    <li class="disabled"><span>{{'paginator.first'|trans}}</span></li>
+{%else%}
+                                            <li><a href="{{ path('ws', { 'page': paginador.firstPage}) }}">{{'paginator.first'|trans}}</a></li>  
+{%endif%}
+{% if paginador.currentPage > 1 %}
+                                                <li><a href="{{ path('ws', { 'page': paginador.previousPage}) }}">&laquo;</a></li>
+{% else %}
+                                                    <li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+{% for page in paginador.minPageInRange..paginador.maxPageInRange %}
+{% if page == paginador.currentPage %}
+                                                        <li class="active"><span>{{ page }}</span></li> 
+{% else %}
+                                                                <li><a href="{{ path('ws', { 'page': page }) }}">{{ page
+}}</a></li>
+{% endif %}
+{% endfor %}
+{% if paginador.currentPage < paginador.lastPage %}
+                                                                        <li><a href="{{ path('ws', { 'page': paginador.nextPage })
+}}">&raquo;</a></li>
+{% else %}
+                                                                            <li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+                                                                        {% if paginador.currentPage == paginador.lastPage %}
+                                                                                <li  class="disabled"><span>{{'paginator.last'|trans}}</span></li>
+{%else%}
+                                                                                        <li><a href="{{ path('ws', { 'page': paginador.lastPage}) }}">{{'paginator.last'|trans}}</a></li>  
+{%endif%}
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+        {%endif%}
+        {%endif%}
+                                                                            </div>
+
+                                                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-body">
+                                                                                            <div class="mensage alert alert-info text-center">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button data-dismiss="modal" class="btn btn-primary">{{'modal.cancel'|trans}}</button>
+                            {{ form_start(delete_form) }}
+    {{ form_errors(delete_form) }}
+    {{ form_widget(delete_form.submit) }}
+    {{ form_rest(delete_form) }}
+    {{ form_end(delete_form) }}
+                                                                                        </div>
+                                                                                    </div><!-- /.modal-content -->
+                                                                                </div><!-- /.modal-dalog -->
+                                                                            </div>
+                                                                            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-body">
+                                                                                            <div class="alert alert-info text-center">
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button data-dismiss="modal" class="btn btn-primary">{{'modal.cancel'|trans}}</button>
+                                                                                            <a href="#" class="accion2 btn btn-primary">Aceptar</a>
+                                                                                        </div>
+                                                                                    </div><!-- /.modal-content -->
+                                                                                </div><!-- /.modal-dalog -->
+                                                                            </div>
+
+    {% endblock %}

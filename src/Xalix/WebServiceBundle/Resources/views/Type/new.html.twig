@@ -1,0 +1,46 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+ <script src="{{ asset('bundles/webservice/js/formtype.js') }}"></script>
+    <div class="container">
+        <h1>{{'menu.add'|trans}} {{'menu.datetype'|trans}}</h1>
+
+    {{ form_start(form) }}
+    {# render the task's only field: description #}
+        <div class="row">
+            <div class="container"></div>
+            <div class="col-lg-5">
+{{ form_label(form.type) }}
+{{ form_widget(form.type) }}
+{{ form_errors(form.type) }}
+                </div>
+                <div class="col-lg-3">
+{{ form_label(form.orderIndicator) }}
+{{ form_widget(form.orderIndicator) }}
+{{ form_errors(form.orderIndicator) }}
+
+                    </div>
+                    <div style="margin-top: 2.5%" class="col-lg-4">
+                        <a class="add_tag_link" href="#"><button title="{{'form.addAtrib'|trans}}" class="btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-plus"></span></button></a>
+                {{ form_widget(form.submit, { 'attr': {'class': 'submit btn btn-small btn-primary','title':'form.save'|trans} }) }}
+                                <a href="{{ path('type') }}"><button  type="button" title="{{'actions.back'|trans}}" class="btn btn-default btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-list"></span></button></a>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="tags" data-prototype="{{ form_widget(form.atribute.vars.prototype)|e }}" />
+                        </div>
+                    </div>
+                </div>
+                <div style="display:none">{{ form_label(form.atribute) }}</div>
+                <div>{{ form_errors(form.atribute) }}</div>
+                <div>{{ form_widget(form.atribute) }}</div>    
+
+{{ form_rest(form) }}
+{{ form_end(form) }}
+
+            </div>
+
+
+
+
+{% endblock %}

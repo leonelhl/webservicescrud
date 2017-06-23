@@ -1,0 +1,119 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script type="text/javascript">
+    //para seleccionar la opcion en la barra de navegacion
+    $(".list").addClass("active");
+    $(function() {
+        $(".list").addClass("active");
+        $(".delete").fadeOut(15000);
+        //all tr elements are hidden
+        if ($('.complex').children().length === 0)
+        {
+            $('.complex').append('<tr class="search-sf"><td class="text-muted" colspan="6">{{'table.notype'|trans}}</td></tr>');
+        }
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6"><h2>{{'page.titleType'|trans}}</h2></div>
+      {% for mensaje in app.session.flashbag.get('error') %}
+            <div  style="margin-top: 2%" class="col-lg-6 delete alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.type'|trans}} <b>{{ mensaje }}</b> {{'message.inuse'|trans}}
+            </div>
+      {% endfor %}
+         {% for mensaje in app.session.flashbag.get('info') %}
+            <div  style="margin-top: 2%" class="col-lg-6 delete alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.type'|trans}} <b>{{ mensaje }}</b> {{'message.typedelete'|trans}}
+            </div>
+      {% endfor %}
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-4">
+                <table class="table table-bordered table-hover records_list">
+                    <thead>
+                        <tr class="btn-default">
+                            <th>#</th>
+                            <th>{{'table.defaultType'|trans}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        {% for entity in entities1 %}
+                            {%if not entity.isArray%}
+                            <tr>
+                                <td>{{loop.index}}</td>
+                                <td>{{ entity.type }}</td>
+                            </tr>
+                            {%endif%}
+        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-8 ">
+                    <table class="table table-bordered table-hover records_list">
+                        <thead>
+                            <tr class="alert-info">
+                                <th>#</th>
+                                <th>{{'table.byUserType'|trans}} <a href="{{ path('type_new') }}"><span class="badge btn-primary"><span title="{{'table.addType'|trans}}" class="glyphicon glyphicon-plus"></span></span></a></th>
+                                <th>{{'table.cantType'|trans}}</th>
+                                <th>{{'table.actionType'|trans}}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="complex">
+         {%set var = 1%}
+        {% for ent in entities2 %}
+                                {%if not ent.isArray%}
+                                <tr>
+                                    <td>{{var}}</td>
+                                    <td><a href="{{ path('type_show', { 'id': ent.id }) }}">{{ ent.type }}</a></td>
+                                    <td>{{ ent.atribute|length }}</td>
+                                    <td> 
+                                        <a href="{{ path('type_edit', { 'id': ent.id }) }}"><span title="{{'table.editType'|trans}}" class="glyphicon glyphicon-pencil"></span></a>                                
+                                        <a class="eliminar" id="{{ ent.type }}" data-toggle="modal" href="#myModal" ><span id="{{ path('type_delete', { 'id': ent.id }) }}" class="glyphicon glyphicon-trash" title="{{'table.deleteType'|trans}}" ></span></a>
+                                    </td>
+                                </tr>
+                                {% set var = var+1 %}
+                                 {%endif%}
+        {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="mensage alert alert-info text-center">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-primary">{{'modal.cancel'|trans}}</button>
+                            {{ form_start(delete_form) }} 
+    {{ form_errors(delete_form) }}
+    {{ form_widget(delete_form.submit) }}
+    {{ form_rest(delete_form) }}
+    {{ form_end(delete_form) }}
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dalog -->
+            </div>
+
+            <script type="text/javascript">
+                $(function() {
+                    /* Función que permite al dar click en un span de eliminación mostrar el nombre
+                     * del SW en la pantalla de confirmación además de colocar la dirección a eliminar
+                     * en el boton de elminación.
+                     */
+                    $(".eliminar").click(function() {
+                        $(".mensage").html('<h4>{{'message.typedel'|trans}} <b>' + $(this).attr("id") + ' </b>?</h4>');
+                        $("form").attr('action', $(this).children().attr('id'));
+                    });
+
+                    //Para mostrar el boton eliminar al lado del cancelar
+                    $("form").attr("class", "enlinea");
+                });
+                </script>
+    {% endblock %}

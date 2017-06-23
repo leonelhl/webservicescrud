@@ -1,0 +1,76 @@
+{%spaceless%}
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="{{entity.name}}" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:{{entity.slug}}" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:{{entity.slug}}">
+    <types>
+        <xsd:schema targetNamespace="urn:{{entity.slug}}">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+{%for type in types %}
+{%if type.isComplexType and not type.isArray %}
+            <xsd:complexType name="{{type.type}}">
+                <xsd:{{type.orderIndicator}}>
+                    {% for atrib in type.atribute %}
+                        <xsd:element name="{{atrib.name}}" {%if atrib.type.isArray or atrib.type.isComplexType%}type="tns:{{atrib.type}}"{%else%}type="xsd:{{atrib.type}}"{%endif%} />
+                    {% endfor %}
+                </xsd:{{type.orderIndicator}}>
+             </xsd:complexType>
+{%endif%}
+{%endfor%}        
+{%for type in types %}
+{%if type.isArray %}
+                <xsd:complexType name="{{type.type}}">
+                    <xsd:complexContent>
+                        <xsd:restriction base="soapenc:Array">
+                            <xsd:attribute ref="soapenc:arrayType" {%if type.isComplexType%}wsdl:arrayType="tns:{{type.type}}"{%else%}wsdl:arrayType="xsd:{{type.type}}"{%endif%} />
+                        </xsd:restriction>
+                    </xsd:complexContent>
+                </xsd:complexType>    
+{%endif%}
+{% endfor %}
+        </xsd:schema>
+        </types>
+         {% for function in entity.wsfunction %}
+        <message name="{{function.name}}Request">
+        {% for param in function.param %}
+                <part name="{{param.name}}" {%if param.type.isArray or param.type.isComplexType%}type="tns:{{param.type}}"{%else%}type="xsd:{{param.type}}"{%endif%}/> 
+        {% endfor %}
+            </message>
+            <message name="{{function.name}}Response">
+                <part name="return" {%if function.return.isArray or function.return.isComplexType%}type="tns:{{function.return}}"{%else%}type="xsd:{{function.return}}"{%endif%}/>
+            </message>
+    {% endfor %}
+            <portType name="{{entity.name}}PortType">
+        {% for function in entity.wsfunction %}
+                    <operation name="{{function.name}}">
+            {% if function.description|length>0 %}
+                            <documentation>{{function.description}}</documentation>
+            {% endif %}
+                                <input message="tns:{{function.name}}Request"/>
+                                <output message="tns:{{function.name}}Response"/>
+                            </operation>
+        {% endfor %}
+                        </portType>
+                        <binding name="{{entity.name}}Binding" type="tns:{{entity.name}}PortType">
+                            <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        {% for function in entity.wsfunction %}
+                            <operation name="{{function.name}}">
+                                <soap:operation soapAction="urn:{{entity.slug}}#{{function.name}}" style="rpc"/>
+                                <input>
+                                    <soap:body use="encoded" namespace="urn:{{entity.slug}}" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                                </input>
+                                <output>
+                                    <soap:body use="encoded" namespace="urn:{{entity.slug}}" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                                </output>
+                            </operation>
+         {% endfor %}
+                        </binding>
+                        <service name="{{entity.name}}">
+        {% if entity.description|length>0 %}
+                                <documentation>{{entity.description}}</documentation>
+        {% endif %}
+                                    <port name="{{entity.name}}Port" binding="tns:{{entity.name}}Binding">
+                                        <soap:address location="{{entity.uri}}"/>
+                                    </port>
+                                </service>
+                            </definitions>
+{%endspaceless%}

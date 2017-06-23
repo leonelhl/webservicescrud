@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{%block title%}{{'page.titleAdmin'|trans}}{%endblock%}</title>
+        <link href="{{ asset('bundles/webservice/css/bootstrap.css') }}"
+              rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/webservice/css/docs.css') }}"
+              rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/webservice/css/pygments-manni.css') }}"
+              rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/webservice/css/prettify.css') }}"
+              rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="{{ asset('bundles/webservice/img/favicon.png') }}" />
+        <style type="text/css">
+                #header{
+                    background-image: url({{ asset('bundles/webservice/img/blue3al.jpg') }});
+                }
+                .enlinea{
+                    display: inline;
+                }
+
+                .masthead {
+                    padding: 0px 0px 0px;
+                    margin-bottom:0px;
+                    color:rgb(255, 255, 255);
+                    position: relative;
+                    top:0px;
+                    left:0px;
+                }
+                .mio{
+                    background:linear-gradient(45deg, rgb(2, 0, 49) 0%, rgb(109, 51, 83) 100%) repeat scroll 0% 0% transparent;
+                    box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.2) inset, 0px -3px 7px rgba(0, 0, 0, 0.2) inset;
+                    text-shadow:0px 1px 3px rgba(0, 0, 0, 0.4), 0px 0px 30px rgba(0, 0, 0, 0.075);
+                    text-align:center;
+                }
+                .btn-info2 {
+                    color: #ffffff;
+                    background-color: #5bc0de;
+                    border-color: #5bc0de;
+                }
+
+            </style>
+            <script type="text/javascript">
+                $(function() {
+                    prettyPrint();
+                    //alert($('a').html());
+                });
+                </script>
+            </head>
+            <script src="{{ asset('bundles/webservice/js/jquery.js') }}"></script>
+            <script src="{{ asset('bundles/webservice/js/bootstrap.js') }}"></script>
+            <script src="{{ asset('bundles/webservice/js/prettify.js') }}"></script>
+            <body>
+                <header>
+             {%if is_granted('ROLE_ADMIN')%}
+                        <div id="contenedor">
+                            <!-- Static navbar -->
+
+                            <div class="navbar navbar-fixed-top navbar-inverse">
+                                <div class="container">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a style="color: #ffffff" class="navbar-brand" href="#">{% block section %}{{'menu.section'|trans}}{%endblock%}</a>
+                                    <div class="nav-collapse collapse">
+                                {%block options%}
+                                            <ul class="nav navbar-nav">
+                                                <li class="home"><a href="{{path('web_service_homepage')}}"><span class="glyphicon glyphicon-home"></span> {{'menu.home'|trans}} </a></li>
+                                                <li class="add list dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> {{'menu.manager'|trans}} <b class="caret"></b></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li class="dropdown-submenu">
+                                                            <a tabindex="-1" href="#"><span class="glyphicon glyphicon-globe"></span> {{'menu.webservice'|trans}}</a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="{{ path('ws_new') }}"><span class="glyphicon glyphicon-plus"></span> {{'menu.add'|trans}}</a></li>
+                                                                <li><a href="{{path('ws')}}"> <span class="glyphicon glyphicon-list-alt"></span> {{'menu.list'|trans}}</a></li>
+                                                                 <li><a href="{{path('ws_updateuri')}}"> <span class="glyphicon glyphicon-list-alt"></span> {{'menu.updateuri'|trans}} </a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="divider"></li>                                                   
+                                                        <li class="dropdown-submenu">
+                                                            <a tabindex="-1" href="#"><span class="glyphicon glyphicon-pushpin"></span> {{'menu.datetype'|trans}}</a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="{{ path('type_new') }}"><span class="glyphicon glyphicon-plus"></span> {{'menu.add'|trans}}</a></li>
+                                                                <li><a href="{{path('type')}}"> <span class="glyphicon glyphicon-list-alt"></span> {{'menu.list'|trans}}</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+ <li class="se front_show dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-fire"></span> Seguridad <b class="caret"></b></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li class="dropdown-submenu">
+                                                            <a tabindex="-1" href="#"><span class="glyphicon glyphicon-user"></span> Usuario de Acceso </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="{{ path('users_new') }}"><span class="glyphicon glyphicon-plus"></span> {{'menu.add'|trans}}</a></li>
+                                                                <li><a href="{{path('users')}}"> <span class="glyphicon glyphicon-list-alt"></span> {{'menu.list'|trans}}</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="divider"></li>                                                   
+                                                        <li class="dropdown-submenu">
+                                                            <a tabindex="-1" href="#"><b>[LXwS8]</b> Token de Acceso </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a href="{{ path('token_new') }}"><span class="glyphicon glyphicon-plus"></span> {{'menu.add'|trans}}</a></li>
+                                                                <li><a href="{{path('token')}}"> <span class="glyphicon glyphicon-list-alt"></span> {{'menu.list'|trans}}</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="frontend front_show dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-magnet"></span>DDI <b class="caret"></b></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="{{ path('uddi') }}"><span class="glyphicon glyphicon-eye-open"></span> {{'menu.frontend'|trans}}</a></li>
+                                                        <li><a href="{{path('uddi_showall')}}"><span class="glyphicon glyphicon-tasks"></span> {{'menu.showws'|trans}}</a></li>                                                       
+                                                    </ul>
+                                                </li>
+                                                <li class="prot_configure"><a href="{{ path('protocol') }}"><span class="glyphicon glyphicon-wrench"></span> {{'menu.protocol'|trans}}</a></li>
+                                                <li class="exit"><a href="{{ path('ws_user_logout') }}"><span class="glyphicon glyphicon-user"></span> {{'menu.signout'|trans}}</a></li>
+
+                                            </ul>
+                                            <ul class="nav navbar-nav pull-right">
+                                                <li class="dropdown pull-right">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{'language.init'|trans}}: {{app.request.locale}} <b class="caret"></b></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="{{ path('ws_setlocale') }}"><span class="glyphicon glyphicon-random"> {% if app.request.locale == 'es' %} {{'language.en'|trans}}{%else%} {{'language.es'|trans}}{% endif %}</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                    {%endblock%}
+                                        </div><!--/.nav-collapse -->
+                                    </div>
+                                </div>
+
+                            </div>
+                    {% else %}
+                            <div id="contenedor" >
+                                <div class="navbar navbar-fixed-top navbar-inverse">
+                                    <div class="container">
+                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span>
+                                        </button>
+                                        <a style="color: #ffffff" class="navbar-brand" href="#">{% block section2 %}UDDI{%endblock%}</a>
+                                        <div class="nav-collapse collapse">
+                                            <ul class="nav navbar-nav">
+                                                <li class="frontend"><a href="{{path('uddi')}}"><span class="glyphicon glyphicon-home"></span> {{'menu.home'|trans}} </a></li>                                       
+                                                <li class="front_show"><a href="{{path('uddi_showall')}}"> <span class="glyphicon glyphicon-list-alt"></span> {{'menu.showws'|trans}} </a></li>                                       
+                                            </ul>    
+                                            <ul class="nav navbar-nav pull-right">
+                                                <li>
+{%block loginform%}
+                                                        <form style="margin-top: 1%" class="form-inline" action="{{ path('ws_user_check') }}" method="post">
+                                                            <input type="text" style="margin-right: 2%" class="col-4 col-lg-4" placeholder="{{'menu.user'|trans}}" name="_username" value="{%block user%}{%endblock%}" />
+                                                            <input type="password" style="margin-right: 2%" class="col-4 col-lg-4" placeholder="{{'menu.pass'|trans}}" name="_password" />
+                                                            <input type="hidden" name="_target_path"/>
+                                                            <button type="submit" class="btn btn-default">{{'menu.signin'|trans}}</button>
+                                                        </form>
+                                                    {%endblock%}
+                                                    </li>
+                                                    <li class="dropdown pull-right">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{'language.init'|trans}}: {{app.request.locale}} <b class="caret"></b></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="{{ path('ws_setlocale') }}"><span class="glyphicon glyphicon-random"> {% if app.request.locale == 'es' %} {{'language.en'|trans}}{%else%} {{'language.es'|trans}}{% endif %}</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div><!--/.nav-collapse -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                {%endif%}
+
+                            </header>
+                            <article>
+            {%block body%} 
+                {%block seccion1%}{%endblock%}
+                {%block seccion2%}{%endblock%}
+            {%endblock%}
+
+                                </article>
+                            </div>
+                            <div id="back-top" style="position: fixed; bottom: 20px; right: 20px; opacity: 1; cursor: pointer;" title="{{'page.up'|trans}}" ><a  id='arriba' href="#top" ><img id="up" style="width: 50px;height: 50px" src="{{ asset('bundles/webservice/img/up.png') }}" /></a></div>
+                            <script type="text/javascript">
+                $(function() {
+                    $('.carousel').carousel();
+                    //-------Button to up in the page-------//
+                    $("#back-top").hide();
+                    // fade in #back-top
+                    $(function() {
+                        $(window).scroll(function() {
+                            if ($(this).scrollTop() > 50) {
+                                $('#back-top').fadeIn();
+                            } else {
+                                $('#back-top').fadeOut();
+                            }
+                        });
+                        // scroll body to 0px on click
+                        $('#back-top a').click(function() {
+                            $('body,html').animate({
+                                scrollTop: 0
+                            }, 800);
+                            return false;
+                        });
+                    });
+                    $("#up").mouseenter(function() {
+                        $("#up").attr("src", "{{ asset('bundles/webservice/img/up2.png') }}");
+                    });
+                    $("#up").mouseleave(function() {
+                        $("#up").attr("src", "{{ asset('bundles/webservice/img/up.png') }}");
+                    });
+                    //----------------------------------------
+                });
+                                </script>
+                            </body>
+                        </html>

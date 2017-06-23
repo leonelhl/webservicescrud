@@ -1,0 +1,70 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script>
+    $(function() {
+        $(".list").addClass("active");
+        $(".eliminar").click(function() {
+            $(".mensage").html('<h4>{{'message.typedel'|trans}} <b>' + $(this).attr("id") + ' </b>?</h4>');
+        });
+        $("form").attr("class", "enlinea");
+    });
+
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8"><h1>{{ entity.type }}</h1></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-hover record_properties">
+                    {%if entity.isComplexType%}
+                    <thead>
+                        <tr>
+                            <td>
+                            {{'table.orderType'|trans}} : {{ entity.orderIndicator }}
+                            </td>
+                        </tr>
+                    </thead>
+                    {%endif%}
+                    <tbody>
+             {% for ent in atributes %}
+                            <tr>
+                                <th>{{ ent.name }}</th>
+                                <td>{{ ent.type }}</td>
+                            </tr>
+                        {%else%}
+                        <div class="jumbotron">{{'table.noatrib'|trans}}</div>
+            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-5 col-offset-1">
+                    <div class="record_actions">  
+                        <a href="{{ path('type_edit', { 'id': entity.id }) }}"><button  style="margin-bottom: 2%" title="{{'table.editType'|trans}}" class="btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-pencil"></span></button></a>
+                        <a style="display: block" class="eliminar" id="{{ entity.type }}" data-toggle="modal" href="#myModal"><button type="button" title="{{'table.deleteType'|trans}}" class="btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-trash"></span></button></a>                       
+                        <a href="{{ path('type') }}"><button  style="margin-top: 2%" type="button" title="{{'actions.back'|trans}}" class="btn btn-default btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-list"></span></button></a>                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="mensage alert alert-info text-center">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-primary">{{'modal.cancel'|trans}}</button>
+                            {{ form_start(delete_form) }}
+    {{ form_errors(delete_form) }}
+    {{ form_widget(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_rest(delete_form) }}
+    {{ form_end(delete_form) }}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dalog -->
+        </div>
+{% endblock %}

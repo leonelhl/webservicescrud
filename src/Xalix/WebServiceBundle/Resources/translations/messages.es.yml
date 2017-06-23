@@ -1,0 +1,150 @@
+menu:
+    home: Inicio
+    showws: Mostrar Servicios Web
+    user: Usuario
+    pass: Contraseña
+    signin: Entrar
+    signout: Salir
+    section: Administración
+    manager: Gestionar
+    webservice: Servicio Web
+    datetype: Tipo de Dato
+    add: Adicionar
+    list: Listar
+    frontend: Portada
+    protocol: Configurar Protocolo
+    updateuri: Actualizar SW URIs
+
+menuws:
+    infows: Datos del Servicio Web
+    function: Funciones
+    func: Función
+    generate: Generar contrato
+
+frontend: 
+    text1: Bienvenido al Directorio de Servicios Web
+    text2: En este sitio podrá encontrar toda la información necesaria para consumir los Servicios Web expuestos.
+    text3: UDDI para SOAP y REST
+    text4: Esta UDDI(Universal Discovery Description Integration) tiene la posibilidad de encontrar Servicios Web asociados en diferentes protocolos como SOAP y REST a través de sus respectivas descripciones WSDL y WADL.
+
+backend:
+    text1: En esta sección se permite crear, mostrar, editar y eliminar un Servicio Web, además es posible activar o desactivar el acceso con las aplicaciones externas.
+    text2: La UDDI permite encontrar los Servicios Web publicados, para así poder consumir de ellos.
+    text3: Permite mostrar los Protocolos de comunicación configurados en la aplicación, así como desactivarlos o activarlos para permitir el acceso de aplicaciones externas.
+
+login:
+    question: ¿Quién eres?
+
+page:
+    up: Ir arriba
+    titleUddi: Directorio de Servicios Web
+    titleAdmin: Administración de Servicios Web
+    titleProtocol: Configuración de protocolos
+    titleType: Tipos de Datos en el Sistema
+    titleContrat: Contrato
+    titleContrat2: del Servicio Web
+    titleNoService: Protocolo no disponible
+    titleSecurity: Seguridad del Servicio Web
+
+search: 
+    form: Buscar
+    noresult: No se encontraron resultados
+
+table:
+    service: Servicio
+    protocol: Protocolo
+    estate: Estado
+    description: Descripción
+    noresult: No existen Servicios Web publicados
+    noresult2: No existen Servicios Web creados
+    transport: Transporte
+    style: Estilo
+    function: Función
+    in: Entrada
+    out: Salida
+    method: Método
+    nofunction: Este Servicio Web no tiene funciones creadas
+    cant1: Cantidad de Servicios Web
+    notype: No existen Tipos de Datos insertado por el usuario
+    defaultType: Tipos de Datos por defecto [XSD]
+    byUserType: Tipos de Datos insertados por el usuario
+    addType: Adicionar Tipo de Dato
+    addws: Adicionar Servicio Web
+    editws: Editar Servicio Web
+    cantType: Cantidad de atributos
+    actionType: Acción
+    editType: Editar Tipo de Dato
+    deleteType: Eliminar Tipo de Dato
+    deletews: Eliminar Servicio Web
+    orderType: Indicador de orden
+    noatrib: Este tipo de dato no tiene atributos asociados
+
+paginator:
+    first: Primera
+    last: Última
+
+modal:
+    cancel: Cancelar
+    delete: Eliminar
+    active: Activar
+    deactive: Desactivar
+    titleSecurityT: Seguridad por Token
+    titleSecurityU: Seguridad por Usuario y Contraseña
+    pSecurityT: La seguridad por Token es gestionada por la aplicación cuando se envía información por la cabecera de la petición.
+    pSecurityU: La seguridad por Usuario y Contraseña es gestionada por la aplicación cuando se envía información por la cabecera de la petición.
+    securitySOAP: SOAP [Utiliza la cabecera de SOAP para enviar los datos]
+    securityREST: REST [Utiliza la cabecera HTTP para enviar los datos]
+
+protocol:
+    able: Activado
+    unable: Desactivado
+
+message:
+    delete: ¿ Desea eliminar el Servicio Web
+    protocol: El protocolo
+    webservice: El Servicio Web
+    isactive: está activado
+    isdeactive: está desactivado
+    canactive: ¿Desea activarlo?
+    candeactive: ¿Desea desactivarlo?
+    was: ha sido
+    type:  El Tipo de Dato
+    inuse: está en uso.
+    typedelete: ha sido eliminado correctamente.
+    nodelete: no pudo eliminarse.
+    problem: Existe un problema.
+    problem2: Ocurrió un problema en el eliminado seguro.
+    typedel: ¿ Desea eliminar el Tipo de Dato
+    purge: purgado
+    noservice: Servicio Web no disponible
+    equalfunc: Funciones con nombres iguales
+    updateuriok: Las URIs relativas de los Servicios Web se han actualizado correctamente.
+    updateurierror: Las URIs relativas de los Servicios Web no se han actualizado correctamente.
+
+actions:
+    edit: Editar Servicio Web
+    editType: Editar Tipo de Dato
+    back: Volver a la lista
+    contrate: Mostrar contrato
+    accept: Aceptar contrato
+    update: Actualizar
+
+form:
+    type: Tipo
+    name: Nombre
+    addAtrib: Adicionar atributo
+    save: Salvar
+    isActive: Público
+    isToken: Token
+    isUser: Usuario y Contraseña
+    return: Retorno
+    method: Método 
+    addParam: Adicionar parámetros
+    security: Seguridad
+    tokens: Lista de Token
+    users: Lista de Usuarios
+
+language:
+    init: Idioma
+    es: Español
+    en: Inglés

@@ -1,0 +1,56 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script type="text/javascript">
+    //para seleccionar la opcion en la barra de navegacion
+    $(function() {
+        $(".security").addClass("active");
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6"><h2>Lista de Token</h2></div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-10 col-offset-1">
+                <table id="list" class="table table-hover">
+                    <thead>
+                       <tr>
+                <th>#</th>
+                <th>Token</th>
+                <th>Servicios Web Vinculados</th>
+                <th>Acción</th>
+            </tr>
+                    </thead>
+                    <tbody>
+                   {% for entity in entities %}
+            <tr>
+                <td>{{loop.index }}</td>
+                <td>{{ entity.token }}</td>
+                <td>{% for ws in entity.webservice %} {% if loop.index != loop.first %}-{% endif %} {{ws.name}} {% endfor %}</td>
+                <td>
+                <ul>
+                    <li style="list-style:none">
+                        <form action="{{ path('token_delete', { 'id': entity.id }) }}" method="post">
+<a style="text-decoration:none;cursor:pointer" class="eliminar"><span class="glyphicon glyphicon-trash" title="Eliminar Token"></span></a>
+</form>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+<script>
+ $(function(){
+   $('.eliminar').click(function(){
+  $(this).parent().submit();
+});
+});
+
+</script>
+    {% endblock %}

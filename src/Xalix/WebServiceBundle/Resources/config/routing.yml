@@ -1,0 +1,33 @@
+web_service_homepage:
+    path: /
+    defaults: { _controller: WebServiceBundle:Default:index }
+
+ws_user_login:
+    path: /login
+    defaults: { _controller: WebServiceBundle:Default:login }
+
+ws_user_check:
+    path: /login_check
+
+ws_user_logout:
+    path: /logout
+
+WebServiceBundle_protocol:
+    resource: "@WebServiceBundle/Resources/config/routing/protocol.yml"
+    prefix: /protocol
+
+WebServiceBundle_ws:
+    resource: "@WebServiceBundle/Resources/config/routing/webservice.yml"
+    prefix: /ws
+
+WebServiceBundle_type:
+        resource: "@WebServiceBundle/Resources/config/routing/type.yml"
+        prefix:   /type
+
+web_service_token:
+    resource: "@WebServiceBundle/Resources/config/routing/token.yml"
+    prefix:   /token
+
+web_service_users:
+    resource: "@WebServiceBundle/Resources/config/routing/users.yml"
+    prefix:   /users

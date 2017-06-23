@@ -1,0 +1,177 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{%block title%}{% if is_granted('ROLE_ADMIN') %}{{'page.titleAdmin'|trans}}{%else%}{{'page.titleUddi'|trans}}{% endif %}{%endblock%}
+{% block section %}{% if is_granted('ROLE_ADMIN') %}{{'menu.section'|trans}}{%else%}UDDI{% endif %}{% endblock %}
+{%block loginform%}{%endblock%}
+{% block body%}
+<script type="text/javascript">
+    $(function() {
+        prettyPrint();
+        $(".eliminar").click(function() {
+            $(".mensage").html('<h4> {{'message.delete'|trans}} <b>' + $(this).attr("id") + ' </b>?</h4>');
+        });
+        $("form").attr("class", "enlinea");
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9"><h1>{{entity.name}}</h1>
+            </div>
+            {%if delete%}
+            <div class="col-lg-3">
+                <a href="{{ path('ws_edit', { 'id': entity.id }) }}"><button style="margin-top:11%" title="{{'actions.edit'|trans}}" class="send btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-pencil"></span></button></a>
+                <a class="eliminar" id="{{ entity.name }}" data-toggle="modal" href="#myModal"><button style="margin-top:11%" type="button" title="{{'modal.delete'|trans}}" class="btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-trash"></span></button></a>                       
+                <a href="{{ path('ws') }}"><button  style="margin-top:11%" title="{{'actions.back'|trans}}" class="btn btn-default btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-list"></span></button></a>
+            </div>
+                    {%endif%}
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="record_properties table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>URI</th>
+                            <td>{{ entity.uri }}</td>
+                        </tr>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <tr>
+                            <th>{{'table.estate'|trans}}</th>
+                            <td>{% if entity.isActive %}{{'protocol.able'|trans}}{% else %}{{'protocol.unable'|trans}}{% endif %}</td>
+                        </tr>
+                        {%endif%}
+                         {% if entity.isToken or entity.isUser %}
+                        <tr>
+                            <th>{{'form.security'|trans}} <span class="glyphicon glyphicon-lock"></span></th>
+                            <td>{% if entity.isToken %}<label class="label label-info"><b>{{'form.isToken'|trans}}</b></label>{% endif %}&nbsp;{% if entity.isUser %}<label class="label label-info"><b>{{'form.isUser'|trans}}</b></label>{% endif %}</td>
+                        </tr>
+                        {%endif%}
+                        <tr>
+                            <th>{{'table.description'|trans}}</th>
+                            <td>{{ entity.description }}</td>
+                        </tr>
+                        <tr>{% set var = false %}
+                            <th>{{'table.protocol'|trans}}</th>
+                            <td id="protocol">
+                                 {% for ent in entity.protocol %}
+                                {%if ent.name == 'SOAP'%}{% set var = true %}{%endif%}
+                                    <a data-toggle="modal" href="#{{ent.name}}" title="{{'actions.contrate'|trans}}"><span class="badge btn-primary">{{ ent.name }} </span></a>
+                             {% endfor %}
+                                </td>
+                            </tr>
+                    {%if var %} 
+                            <tr>
+                                <th>{{'table.transport'|trans}} | {{'table.style'|trans}} [SOAP]</th>
+                                <td><span class="label label-info"><b>HTTP</b></span> | <span class="label label-info"><b>rpc</b></span></td>
+                            </tr>
+                        {%endif%} 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="list" class="record_properties table table-hover table-bordered">
+                        <thead>
+                            <tr class="alert-info">
+                                <th>#</th>
+                                <th>{{'table.function'|trans}}</th>
+                                <th>{{'table.in'|trans}}</th>
+                                <th>{{'table.out'|trans}}</th>
+                                <th>{{'table.description'|trans}}</th>
+                            {% for ent in entity.protocol %}
+                            {%if ent.name == 'REST' %} 
+                                    <th>{{'table.method'|trans}} [REST]</th>
+{%endif%}
+                             {% endfor %}
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    {% for func in function%}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ func.name }}</td>
+                                            <td>
+                        {% for param in func.param %}
+                        {%if not loop.first %}, {%endif%}{{param.name}}:{{param.type}}
+                        {% endfor %}
+                                                </td>
+                                                <td>{{ func.return}}</td>
+                                                <td>{{ func.description}}</td>
+
+                                                    {% for ent in entity.protocol %}
+                            {%if ent.name == 'REST' %} 
+                                                <td>
+                                                    <span class="label label-info"><b>{{func.method.name}}</b></span>
+
+                                                </td>
+{%endif%}
+                             {% endfor %}
+                                            </tr>
+                            {%else%}
+                                        <div class="jumbotron">{{'table.nofunction'|trans}}</div>
+                                        <script type="text/javascript">
+                                            $(function() {
+                                                $("#list").attr("class", "hidden");
+                                            });
+                                            </script>
+                     {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+{% if wsdl != null %}
+                            <!-- Modal Contrato-->
+                            <div class="modal fade" id="SOAP" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">    
+                                <div class="col-lg-10 col-offset-1 modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">WSDL (Web Service Description Language)</h4>
+                                        <h5 class="modal-title">{{ entity.uri }}?wsdl</h5>
+                                    </div>
+                                    <div class="col-lg-12 modal-body">
+                                        <pre class="prettyprint linenums">{{wsdl}}
+                                        </pre>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+{% endif %}
+{% if wadl != null %}            
+                            <!-- Modal Contrato-->
+                            <div class="modal fade" id="REST" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">    
+                                <div class="col-lg-10 col-offset-1 modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">WADL (Web Aplication Description Language)</h4>
+                                        <h5 class="modal-title">{{ entity.uri }}/wadl.xml</h5>
+                                    </div>
+                                    <div class="col-lg-12 modal-body">
+                                        <pre class="prettyprint linenums">{{wadl}}
+                                        </pre>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+
+      {% endif %}
+{%if delete %}
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="mensage alert alert-info text-center">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-primary">{{'modal.cancel'|trans}}</button>
+                            {{ form_start(delete_form) }}
+    {{ form_errors(delete_form) }}
+    {{ form_widget(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_rest(delete_form) }}
+    {{ form_end(delete_form) }}
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dalog -->
+                            </div>                                 
+{%endif%}
+{% endblock %}

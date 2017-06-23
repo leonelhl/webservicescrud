@@ -1,0 +1,60 @@
+ws:
+    path:  /
+    defaults: { _controller: "WebServiceBundle:WebService:index" }
+
+ws_show:
+    path:  /show/{id}
+    defaults: { _controller: "WebServiceBundle:WebService:show" }
+
+ws_new:
+    path:  /new
+    defaults: { _controller: "WebServiceBundle:WebService:new" }
+
+ws_generate_contrate:
+    path:  /generate_contrate
+    defaults: { _controller: "WebServiceBundle:WebService:generateContrate" }
+
+ws_create:
+    path:  /create
+    defaults: { _controller: "WebServiceBundle:WebService:create" }
+    requirements: { _method: post }
+
+ws_edit:
+    path:  /{id}/edit
+    defaults: { _controller: "WebServiceBundle:WebService:edit" }
+
+ws_edit_generate_contrate:
+    path:  /{id}/generate_contrate
+    defaults: { _controller: "WebServiceBundle:WebService:editGenerateContrate" }
+
+ws_update:
+    path:  /{id}/update
+    defaults: { _controller: "WebServiceBundle:WebService:update" }
+    requirements: { _method: post|put }
+
+ws_delete:
+    path:  /{id}/delete
+    defaults: { _controller: "WebServiceBundle:WebService:delete" }
+    requirements: { _method: post|delete }
+
+ws_search:
+    path:  /search
+    defaults: { _controller: "WebServiceBundle:WebService:search" }
+    requirements: { _method: post }
+
+ws_security:
+    path:  /{id}/security
+    defaults: { _controller: "WebServiceBundle:WebService:security" }
+
+ws_security_update:
+    path:  /{id}/security_update
+    defaults: { _controller: "WebServiceBundle:WebService:securityUpdate" }
+    requirements: { _method: post|put }
+
+ws_configure:
+    path:  /{id}/{action}
+    defaults: { _controller: "WebServiceBundle:WebService:configure" }
+
+ws_updateuri:
+    path:  /updateuri
+    defaults: { _controller: "WebServiceBundle:WebService:updateuri" }

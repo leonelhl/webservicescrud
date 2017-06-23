@@ -1,0 +1,23 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<div class="container">
+        <div class="row">
+            <div class="col-lg-6"><h2>Crear Usuario de Servicio Web</h2></div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-10 col-offset-1">
+{{ form_start(form) }}
+{{ form_row(form.username) }}
+{{ form_row(form.password) }}
+<br>
+{{ form_widget(form.submit, {'label':'Crear', 'attr':{'class':'btn btn-primary'}}) }}
+{{ form_rest(form) }}
+{{ form_end(form) }}
+<br>
+<a href="{{path('users')}}" class="btn btn-default">Volver al listado</a>
+</ul>
+</div>
+</div>
+</div>
+{% endblock %}

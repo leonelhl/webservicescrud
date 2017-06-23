@@ -1,0 +1,30 @@
+token:
+    pattern:  /
+    defaults: { _controller: "WebServiceBundle:Token:index" }
+
+token_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "WebServiceBundle:Token:show" }
+
+token_new:
+    pattern:  /new
+    defaults: { _controller: "WebServiceBundle:Token:new" }
+
+token_create:
+    pattern:  /create
+    defaults: { _controller: "WebServiceBundle:Token:create" }
+    requirements: { _method: post }
+
+token_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "WebServiceBundle:Token:edit" }
+
+token_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "WebServiceBundle:Token:update" }
+    requirements: { _method: post|put }
+
+token_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "WebServiceBundle:Token:delete" }
+    requirements: { _method: post|delete }

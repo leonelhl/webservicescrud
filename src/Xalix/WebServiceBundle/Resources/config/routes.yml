@@ -1,0 +1,3 @@
+xalix_ws_notavailable:
+    pattern: /notavailable
+    defaults: { _controller: 'WebServiceBundle:WebService:notavailable' }

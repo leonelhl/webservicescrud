@@ -1,0 +1,178 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script src="{{ asset('bundles/webservice/js/form.js') }}"></script>
+<script src="{{ asset('bundles/webservice/js/bootstrap-multiselect.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('bundles/webservice/css/bootstrap-multiselect.css') }}" type="text/css"/>
+<script>
+    $(function() {
+        $(".list").addClass("active");
+        if ($('.submenu > a').length > 4) {
+            $('.submenu').addClass('pre-scrollable').css('height', '165px');
+        }
+        $('.submenu > a').click(function() {
+            $('.submenu > .active').removeClass('active');
+            $('.affix > a.active').removeClass('active');
+            $('.functions').addClass('active');
+            $(this).addClass('active');
+        });
+
+        var i = $('.param').length + 1;
+        $('.addparam').html('<span class="glyphicon glyphicon-plus"></span>').attr('style', 'margin-bottom:2%;margin-top: 2%');
+        $('.addparam').unbind('click');
+        $('.addparam').click(function(e) {
+            //alert($('div.' + $(this).attr('id')).data('prototype'));
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // Get the ul that holds the collection of tags
+            collectionHolder2 = $('div.' + $(this).attr('id'));
+            $newLinkLi2 = $('<div></div>');
+            // add the "add a tag" anchor and li to the tags ul
+            collectionHolder2.append($newLinkLi2);
+            collectionHolder2.data('index', collectionHolder2.find(':input').length);
+            // add a new tag form (see next code block)
+            addTagForm2(collectionHolder2, $newLinkLi2);
+            die();
+        });
+        function addTagForm2(collectionHolder2, $newLinkLi2) {
+            prototype2 = collectionHolder2.data('prototype');
+            newForm2 = prototype2.replace(/__name__/g, i);
+            //newForm2 = newForm2.replace(/param_./g, 'param_' + i);
+            $newFormLi2 = $('<div class="col-lg-4 well atrib"> <button type="button" class="close">&times;</button></div>').append(newForm2);
+
+            // $($newFormLi2.children('div').children()[0]).remove();
+
+            $newLinkLi2.before($newFormLi2);
+            i = i + 1;
+        }
+        //$('.affix').scrollspy();
+        $('.addws').css('display', 'none');
+        $('.submit').css('display', 'none');
+
+        if ($('form').attr('action') === '{{form_action}}') {
+            $('form').attr('action', '{{gen_action}}');
+        }
+
+        $('#webservice_wsfunction').remove();
+        if ($('#webservice_protocol').children().eq(1).attr('selected')) {
+            $('.notvisible').css('display', '');
+        }
+
+        ///  alert($(this).attr("value"));
+        //  if ($(this).attr("checked")) {
+        // $(this).removeAttr("checked");
+        // $('.multiselect').multiselect('destroy');
+        // $('.multiselect').multiselect({
+        //     buttonClass: 'btn btn-primary btn-small'
+        // });
+        //    } else {
+        //       $(this).attr("checked", 'true');
+        //      $('.multiselect').multiselect('destroy');
+        //     $('.multiselect').multiselect({
+        //        buttonClass: 'btn btn-primary btn-small'
+        //   });
+        // }
+        //  $('.protocol').removeAttr("required");
+        //    });
+
+    });
+    </script>
+    <style type="text/css">
+            .method{
+                margin-top: 2%;
+            }
+        </style>
+        <div class="container">
+            <div style="margin-left: -5px; padding-left: 0px" class="col-3 col-lg-3"> 
+                <div style="margin-top: 2%" class="list-group bs-sidebar affix">
+                    <a href="#" class="list-group-item active">
+                        {{'menuws.infows'|trans}}
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                        <a href="#func" class="functions list-group-item">
+                            <span class="menu_func">{{'menuws.function'|trans}}</span>
+                            <span class="add_tag_link badge btn-primary"><span title="{{'menu.add'|trans}}" class="glyphicon glyphicon-plus"></span></span>
+                        </a>
+                        <div class="submenu">
+{% for tag in form.wsfunction %}
+                                <a href="#function{{loop.index}}" class="function{{loop.index}} list-group-item toedit">{{'menuws.func'|trans}} # {{loop.index}}</a>
+{%endfor%}
+                            </div>
+                            <a href="{{ path('ws') }}" class="list-group-item">
+                            {{'actions.back'|trans}}
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-9 col-lg-9" >   
+                            <h1 class="add">{{'table.addws'|trans}}</h1>
+                {{ form_start(form) }}
+                            <table class="record_properties table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>{{ form_label(form.name) }}</th>
+                                        <td>{{ form_widget(form.name) }}{{ form_errors(form.name) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ form_label(form.isActive) }}</th>
+                                        <td>{{ form_widget(form.isActive) }}{{ form_errors(form.isActive) }}</td>
+                                    </tr>
+                                     <tr>
+                                         <th>{{'form.security'|trans}} <span class="glyphicon glyphicon-lock"></span></th>
+                                        <td>{{ form_widget(form.isToken) }}&nbsp;{{ form_label(form.isToken) }}{{ form_errors(form.isToken) }}<br>
+                                        {{ form_widget(form.isUser) }}&nbsp;{{ form_label(form.isUser) }}{{ form_errors(form.isUser) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ form_label(form.protocol) }}</th>
+                                        <td>{{ form_widget(form.protocol, { 'attr': {'class' : 'multiselect protocol',} }) }}{{ form_errors(form.protocol) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ form_label(form.description) }}</th>
+                                        <td>{{ form_widget(form.description) }}{{ form_errors(form.description) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+    {# render the task's only field: description #}
+                            <div id="func" class="row">
+                {{ form_widget(form.submit, { 'attr': {'class': 'submit btn btn-small btn-primary','title':'Salvar'} }) }}                          
+
+                                </div>
+                                <button class="btn btn-primary contrate">{{'menuws.generate'|trans}}</button>
+                                <hr/>
+                                <div class="row">
+                                    <div class="tags" data-prototype="{{ form_widget(form.wsfunction.vars.prototype)|e }}" />
+                      {% for tag in form.wsfunction %}
+                                    <div id= "function{{loop.index}}" class="col-lg-12 well atrib"><hr/><button value="function{{loop.index}}" type="button" class="close">&times;</button><h3>{{'menuws.func'|trans}} # {{loop.index}} </h3>
+                                        <div>{{ form_label(tag.name) }}{{ form_widget(tag.name) }}{{ form_errors(tag.name) }}</div>
+                     {{ form_row(tag.description) }}
+                     {{ form_row(tag.return) }}
+                                        <div style="display:none" class="notvisible">{{ form_label(tag.method) }}{{ form_widget(tag.method) }}{{ form_errors(tag.method) }}</div>
+                     {{ form_row(tag.add) }} 
+
+                                        <div> 
+                                            <div id="webservice_wsfunction_{{loop.index0}}_param">
+                                                <div class="webservice_wsfunction_{{loop.index0}}_add" data-prototype="{{ form_widget(tag.param.vars.prototype)|e }}">
+                                                 {% for param in tag.param %} 
+                                                        <div class="col-lg-4 well atrib"><button type="button" class="close">&times;</button>
+{{ form_row(param.name) }}
+{{ form_row(param.type) }}
+                                                            </div>                                                     
+{% endfor %} 
+                                                        </div>
+                                                    </div>  
+                                                </div>
+                                            </div>
+{% endfor %}
+
+                                        </div>
+                                        <div style="display:none">{{ form_row(form.contrate) }}</div>
+                                        <div style="display:none">{{ form_row(form.uri) }}</div>
+                                        <div style="display:none">{{ form_label(form.wsfunction) }}</div>
+                                        <div>{{ form_errors(form.wsfunction) }}</div>
+                                        <div>{{ form_widget(form.wsfunction) }}</div>  
+{{ form_rest(form) }}
+{{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{%spaceless%}
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="http://wadl.dev.java.net/2009/02 wadl.xsd" 
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+             xmlns="http://wadl.dev.java.net/2009/02"
+             xmlns:tns="urn:{{entity.slug}}"
+             targetNamespace="urn:{{entity.slug}}"> 
+
+     {% if entity.description|length>0 %}
+    <doc>{{entity.description}}</doc>
+        {% endif %}
+
+{%if types %}
+        <grammars>
+            <xsd:schema targetNamespace="urn:{{entity.slug}}" xmlns:xml="http://www.w3.org/XML/1998/namespace">
+                <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+                {%for type in types %}
+{%if type.isComplexType and not type.isArray %}
+                <xsd:element name="{{type.type}}">
+                    <xsd:complexType>
+                        <xsd:{{type.orderIndicator}}>
+                    {% for atrib in type.atribute %}
+                                <xsd:element name="{{atrib.name}}" {%if atrib.type.isArray or atrib.type.isComplexType%}type="tns:{{atrib.type}}"{%else%}type="xsd:{{atrib.type}}"{%endif%} />
+                    {% endfor %}
+                            </xsd:{{type.orderIndicator}}>
+                        </xsd:complexType>
+                    </xsd:element>
+{%endif%}
+{%endfor%}
+{%for type in types %}
+{%if type.isArray %}
+                    <xsd:simpleType name="{{type.type}}">
+                        <xsd:list {%if type.isComplexType%}itemType='tns:{{type.type | replace({'[]': ''})}}'{%else%}itemType="xsd:{{type.type | replace({'[]': ''})}}"{%endif%} />
+                    </xsd:simpleType> 
+{%endif%}
+{% endfor %}
+                </xsd:schema>
+            </grammars>
+{%endif%}
+
+            <resources name="{{entity.name}}" base="{{entity.uri}}">
+
+      {% for function in entity.wsfunction %}
+                <resource path="/{{function.name}}.{_format}">
+                 {% if function.description|length>0 %}
+                        <doc>{{function.description}}</doc>
+            {% endif %}
+                            <method name="{{function.method}}">
+                           {% if function.param|length>0 %}
+                                    <request>
+                                 {% for param in function.param %}
+                                        {% if param.type == 'anyXML' or param.type == 'anyXML[]' %}
+                                            <representation name="{{param.name}}" id="{{param.name}}{{loop.index0}}" mediaType="text/xml" />  
+                              {%else%}
+                               {% if param.type == 'anyJSON' or param.type == 'anyJSON[]' %}
+                                            <representation name="{{param.name}}" id="{{param.name}}{{loop.index0}}" mediaType="text/json" /> 
+                              {%else%}
+                                            <param name="{{param.name}}" {%if function.method == 'GET'%}style="query"{%else%}style="header"{%endif%} {%if param.type.isArray or param.type.isComplexType%}type="tns:{{param.type}}"{%else%}type="xsd:{{param.type}}"{%endif%}/>                                                               
+{%endif%}
+{%endif%}
+
+{% endfor %}             
+                                        </request>  
+            {% endif %} 
+{% if function.return != 'void' %}
+                                        <response>
+                                                                                {% if function.return == 'anyXML' or function.return == 'anyXML[]' %}
+                                                <representation mediaType="text/xml" />  
+                              {%else%}
+                               {% if function.return == 'anyJSON' or function.return == 'anyJSON[]' %}
+                                                <representation mediaType="text/json" /> 
+                              {%else%}
+                                                <param style="header" name="{{function.return}}" {%if function.return.isArray or function.return.isComplexType%}type="tns:{{function.return}}"{%else%}type="xsd:{{function.return}}"{%endif%}/>                                                               
+{%endif%}
+{%endif%}
+                                            </response>
+{% endif %}
+                                        </method>
+                                    </resource>
+          {%endfor%}
+                                </resources>
+                            </application>
+    {%endspaceless%}

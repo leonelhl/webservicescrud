@@ -1,0 +1,140 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body%}
+<script type="text/javascript">
+    $(function() {
+        prettyPrint();
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9"><h1>{{'page.titleSecurity'|trans}} <b>{{entity.name}}</b></h1>
+            </div>
+
+            <div class="col-lg-3">
+                <a href="{{ path('ws_edit', { 'id': entity.id }) }}"><button style="margin-top:11%" title="{{'actions.edit'|trans}}" class="send btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-pencil"></span></button></a>
+                <a href="{{ path('ws') }}"><button  style="margin-top:11%" title="{{'actions.back'|trans}}" class="btn btn-default btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-list"></span></button></a>
+            </div>
+
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-lg-8 col-offset-2">
+            {{ form_start(form) }}
+                    <table class="record_properties table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>{{'table.protocol'|trans}}</th>
+                                <td>
+                                 {% for ent in entity.protocol %}
+                                        <span class="badge">{{ ent.name }} </span>
+                             {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>{{'form.security'|trans}} <span class="glyphicon glyphicon-lock"></span></th>
+                                    <td>{{ form_widget(form.isToken) }}&nbsp;{{ form_label(form.isToken) }}{{ form_errors(form.isToken) }} <a data-toggle="modal" href="#modal"><span class="glyphicon glyphicon-exclamation-sign"></span></a><br>
+                                    {{ form_widget(form.isUser) }}&nbsp;{{ form_label(form.isUser) }}{{ form_errors(form.isUser) }} <a data-toggle="modal" href="#modal2"><span class="glyphicon glyphicon-exclamation-sign"></span></a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ form_label(form.token) }}</th>
+                                        <td>{{ form_widget(form.token) }}{{ form_errors(form.token) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ form_label(form.user) }}</th>
+                                        <td>{{ form_widget(form.user) }}{{ form_errors(form.user) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-primary pull-right">{{'actions.update'|trans}}</button>
+                        </div>
+                    </div>     
+    {{ form_rest(form) }}
+{{ form_end(form) }}   
+                </div>
+{%set var = '
+<SOAP-ENV:Header>
+  <ServiceSecurity>
+    <token xsi:type="xsd:string">70ac0d08f303e699e774ffb3cfc94cbb</token>
+  </ServiceSecurity>
+</SOAP-ENV:Header>'%}
+    {%set var2 = '
+<SOAP-ENV:Header>
+  <ServiceSecurity>
+    <user xsi:type="xsd:string">leox</user>
+    <pass xsi:type="xsd:string">mynameisleox</pass>
+  </ServiceSecurity>
+</SOAP-ENV:Header>'%}
+                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">    
+                    <div class="col-lg-10 col-offset-1 modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">{{'modal.titleSecurityT'|trans}}</h4>
+                        </div>
+                        <div class="col-lg-12 modal-body">
+                            <p>{{'modal.pSecurityT'|trans}}
+                            </p>
+                            <br>
+                            <p>
+                            {{'modal.securitySOAP'|trans}}
+                            </p>
+                            <pre class="col-lg-12 prettyprint linenums">
+                            {{var}}
+                            </pre>
+                            <p>
+                            {{'modal.securityREST'|trans}}
+                            </p>
+                            <pre class="col-lg-12 prettyprint linenums">
+POST /Testing/Xalix/web/app_dev.php/webservices/nuevo?wsdl HTTP/1.0
+Connection:      keep-alive
+Content-Type: text/xml; charset=ISO-8859-1
+Content-Length: 747
+Accept-Encoding: gzip, deflate
+Accept-Language: es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3
+Host: localhost
+<b>token: 02j90n20n02f00238f498n4f</b>
+User-Agent:      Mozilla/5.0 (Windows NT 6.2; rv:24.0) Gecko/20100101 Firefox/24.0
+X-Php-Ob-Level:  1
+</pre>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+
+                <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">    
+                    <div class="col-lg-10 col-offset-1 modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">{{'modal.titleSecurityU'|trans}}</h4>
+                        </div>
+                        <div class="col-lg-12 modal-body">
+                            <p>{{'modal.pSecurityU'|trans}}
+                            </p>
+                            <br>
+                            <p>
+                            {{'modal.securitySOAP'|trans}}
+                            </p>
+                            <pre class="col-lg-12 prettyprint linenums">
+                            {{var2}}
+                            </pre>
+                            <p>
+                            {{'modal.securityREST'|trans}}
+                            </p>
+                            <pre class="col-lg-12 prettyprint linenums">
+POST /Testing/Xalix/web/app_dev.php/webservices/nuevo?wsdl HTTP/1.0
+Connection:      keep-alive
+Content-Type: text/xml; charset=ISO-8859-1
+Content-Length: 747
+Accept-Encoding: gzip, deflate
+Accept-Language: es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3
+Host: localhost
+<b>user: leox</b>
+<b>pass: mynameisleox</b>
+User-Agent:      Mozilla/5.0 (Windows NT 6.2; rv:24.0) Gecko/20100101 Firefox/24.0
+X-Php-Ob-Level:  1
+</pre>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+{% endblock %}
+
+
+

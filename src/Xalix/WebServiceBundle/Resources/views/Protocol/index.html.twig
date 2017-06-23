@@ -1,0 +1,86 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<script type="text/javascript">
+    //para seleccionar la opcion en la barra de navegacion
+    $(function() {
+        $(".prot_configure").addClass("active");
+        $(".delete").fadeOut(15000);
+    });
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6"><h2>{{'page.titleProtocol'|trans}}</h2></div>
+     {% for mensaje in app.session.flashbag.get('able') %}
+            <div  style="margin-top: 2%" class="col-lg-6 delete alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.protocol'|trans}} <b>{{ mensaje }}</b> {{'message.was'|trans}} <b>{{'protocol.able'|trans|lower}}</b>.
+            </div>
+             {% endfor %}
+           {% for mensaje in app.session.flashbag.get('unable') %}
+            <div  style="margin-top: 2%" class="col-lg-6 delete alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{'message.protocol'|trans}} <b>{{ mensaje }}</b> {{'message.was'|trans}} <b>{{'protocol.unable'|trans|lower}}</b>.
+            </div>
+             {% endfor %}
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-10 col-offset-1">
+                <table id="list" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>{{'table.protocol'|trans}}</th>
+                            <th>{{'table.description'|trans}}</th>
+                            <th>{{'table.estate'|trans}}</th>
+                            <th>{{'table.cant1'|trans}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for pro in protocol %}
+                            <tr>
+                                <td>{{pro.name}}</td>
+                                <td>{{pro.description}}</td>
+                                <td>{% if pro.isActive %}<a data-toggle="modal" href="#myModal" id="{{pro.name}}" class="accion btn btn-info"><span id="{{ path('protocol_configure', { 'id': pro.id, 'action':'unable' }) }}" class="activate">{{'protocol.able'|trans}}</span></a>{% else %}<a data-toggle="modal" id="{{pro.name}}" href="#myModal" class="accion btn btn-default"><span id="{{ path('protocol_configure', { 'id': pro.id, 'action':'able' }) }}" class="deactivate">{{'protocol.unable'|trans}}</span></a>{% endif %}</td>
+                                <td class="text-center">{{pro.webservice|length}}</td>
+                            </tr>
+                      {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function() {
+                $(".accion").click(function() {
+                    if ($(this).children().attr('class') === 'activate') {
+                        $(".alert-info").html('<h4> {{'message.protocol'|trans}} <b>' + $(this).attr("id") + ' </b>{{'message.isactive'|trans}} <hr/>{{'message.candeactive'|trans}}</h4>');
+                        $(".accion2").html('{{'modal.deactive'|trans}}');
+                        $(".accion2").attr("href", $(this).children().attr('id'));
+                        $(".accion2").attr("class", "accion2 btn btn-default");
+                    } else {
+                        $(".alert-info").html('<h4> {{'message.protocol'|trans}} <b>' + $(this).attr("id") + ' </b>{{'message.isdeactive'|trans}}<hr/>{{'message.canactive'|trans}}</h4>');
+                        $(".accion2").html('{{'modal.active'|trans}}');
+                        $(".accion2").attr("href", $(this).children().attr('id'));
+                        $(".accion2").attr("class", "accion2 btn btn-info");
+                    }
+                });
+            });
+            </script>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="alert alert-info text-center">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-primary">{{'modal.cancel'|trans}}</button>
+                            <a href="#" class="accion2 btn btn-primary"></a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dalog -->
+            </div>
+
+    {% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+ <script src="{{ asset('bundles/webservice/js/formtype.js') }}"></script>
+<div class="container">
+    <h1>{{'actions.editType'|trans}}</h1>
+
+    {{ form_start(edit_form) }}
+    {# render the task's only field: description #}
+    <div class="row">
+        <div class="container"></div>
+        <div class="col-lg-5">
+{{ form_label(edit_form.type) }}
+{{ form_widget(edit_form.type) }}
+{{ form_errors(edit_form.type) }}
+            </div>
+            <div class="col-lg-3">
+{{ form_label(edit_form.orderIndicator) }}
+{{ form_widget(edit_form.orderIndicator) }}
+{{ form_errors(edit_form.orderIndicator) }}
+                </div>
+                <div style="margin-top: 2.5%" class="col-lg-4">
+                    <a class="add_tag_link" href="#"><button title="{{'form.addAtrib'|trans}}" class="btn btn-primary btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-plus"></span></button></a>
+                {{ form_widget(edit_form.submit, { 'attr': {'class': 'submit btn btn-small btn-primary','title':'form.save'|trans} }) }}
+                            <a href="{{ path('type') }}"><button  type="button" title="{{'actions.back'|trans}}" class="btn btn-default btn-small"><span style="font-size: 15px" class="glyphicon glyphicon-list"></span></button></a>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="tags" data-prototype="{{ form_widget(edit_form.atribute.vars.prototype)|e }}" />
+                  {% for tag in edit_form.atribute %}
+                        <div class="col-lg-3 well atrib"><button type="button" class="close">&times;</button>
+                     {{ form_row(tag.name) }}
+                     {{ form_row(tag.type) }}
+                            </div>
+        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div style="display:none">{{ form_label(edit_form.atribute) }}</div>
+                <div>{{ form_errors(edit_form.atribute) }}</div>
+                <div>{{ form_widget(edit_form.atribute) }}</div>    
+
+{{ form_rest(edit_form) }}
+{{ form_end(edit_form) }}
+
+            </div>
+
+
+{% endblock %}

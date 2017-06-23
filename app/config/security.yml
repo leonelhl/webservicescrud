@@ -1,0 +1,31 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Xalix\WebServiceBundle\Entity\Users: md5
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_ADMIN]  
+
+    providers:
+        administrador:
+            memory:
+                users:
+                    admin: { password: 1234, roles: ROLE_ADMIN }
+
+    firewalls:
+        ws:
+            pattern: ^/*
+            provider: administrador
+            anonymous: ~
+            form_login:
+                login_path: ws_user_login
+                check_path: ws_user_check
+            logout:
+                path:   ws_user_logout
+                target: uddi
+
+    access_control:
+        - { path: ^/(es|en)/uddi/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(es|en)/service/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/(es|en)/service/*, roles: ROLE_ADMIN }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

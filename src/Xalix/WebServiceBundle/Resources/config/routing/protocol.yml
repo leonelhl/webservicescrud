@@ -1,0 +1,7 @@
+protocol:
+    pattern:  /
+    defaults: { _controller: "WebServiceBundle:Protocol:index" }
+
+protocol_configure:
+    pattern:  /{id}/{action}
+    defaults: { _controller: "WebServiceBundle:Protocol:configure" }

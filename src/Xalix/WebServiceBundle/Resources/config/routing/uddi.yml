@@ -1,0 +1,20 @@
+uddi:
+    path: /
+    defaults: { _controller: WebServiceBundle:Uddi:index }
+
+uddi_showall:
+    path: /showall
+    defaults: { _controller: WebServiceBundle:Uddi:showall }
+
+uddi_show:
+    path: /show/{id}
+    defaults: { _controller: WebServiceBundle:Uddi:show }
+
+uddi_search:
+    pattern:  /search
+    defaults: { _controller: "WebServiceBundle:Uddi:search" }
+    requirements: { _method: post }
+
+ws_setlocale:
+    path: /setlocale
+    defaults: { _controller: WebServiceBundle:Default:setLocale }

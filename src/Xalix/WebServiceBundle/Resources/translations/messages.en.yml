@@ -1,0 +1,150 @@
+menu:
+    home: Home
+    showws: Show Web Services
+    user: User
+    pass: Password
+    signin: Sign in
+    signout: Sign out
+    section: Administration
+    manager: Manager
+    webservice: Web Service
+    datetype: Data Type
+    add: Add
+    list: List
+    frontend: Frontend
+    protocol: Configure Protocol
+    updateuri: Update WS URIs
+
+menuws:
+    infows: Web Service info
+    function: Functions
+    func: Function
+    generate: Generate contrate
+
+frontend:
+    text1: Welcome to Universal Description Discovery and Integration
+    text2: In this site, you can find all information to consume able Web Services.
+    text3: UDDI for SOAP and REST
+    text4: This UDDI(Universal Discovery Description Integration) have the possibility to find Web Services associated to different protocols how SOAP and REST across the descriptions lenguages WSDL and WADL.   
+
+backend:
+    text1: In this section allows create, show, edit and delete a Web Service, also is posible to active and deactive the access with the extern applications.    
+    text2: The UDDI allows find the Web Services publish, to use them.
+    text3: Allows show the Protocols of communication configure in the application, and its posible deactive and active to permit the access the applications extern.
+
+login:
+    question: Who are you?
+
+page:
+    up: Up
+    titleUddi: Universal Description Discovery and Integration
+    titleAdmin: Web Service Manager
+    titleProtocol: Configuration of protocols
+    titleType: Data Types in the system
+    titleContrat: Contrate
+    titleContrat2: of the Web Service
+    titleNoService: Protocol not aviable
+    titleSecurity: Security of Web Service
+
+search: 
+    form: Search
+    noresult: Results not found
+
+table:
+    service: Service
+    protocol: Protocol
+    estate: State
+    description: Description
+    noresult: Not exists Web Services available
+    noresult2: Not exists Web Services created
+    transport: Transport
+    style: Style
+    function: Function
+    in: In
+    out: Out
+    method: Method
+    nofunction: This Web Service don´t have funcions
+    cant1: Web Service number
+    notype: Not exists Data Type insert by user
+    defaultType: Default Data Types [XSD]
+    byUserType: Data Types insert by user
+    addType: Add Data Type
+    addws: Add Web Service
+    editws: Edit Web Service
+    cantType: Atribute number
+    actionType: Action
+    editType: Edit Data Type
+    deleteType: Delete Data Type
+    deletews: Delete Web Service
+    orderType: Order indicator
+    noatrib: This Data Type don´t have atributes associated
+
+paginator:
+    first: First
+    last: Last
+
+modal:
+    cancel: Cancel
+    delete: Delete
+    active: Active
+    deactive: Deactive
+    titleSecurityT: Security for Token
+    titleSecurityU: Security for User and Password
+    pSecurityT: The Security by Token is manage for the application when the information has send by the request header.
+    pSecurityU: The Security by User and Password is manage for the application when the information has send by the request header.
+    securitySOAP: SOAP [Use the SOAP header to send the information]
+    securityREST: REST [Use the HTTP header to send the information]
+
+protocol:
+    able: Able
+    unable: Unable
+
+message:
+    delete: Do you want to delete the Web Service
+    protocol: The protocol
+    webservice: The Web Service
+    isactive: is active
+    isdeactive: is deactive
+    canactive: Do you wan to active?
+    candeactive: Do you wan to deactive?
+    was: was
+    type:  The Data Type
+    inuse: is in use.
+    typedelete: was eliminated correctly.
+    nodelete: can´t eliminated.
+    problem: Exists a problem.
+    problem2: A problem exists in the savefly delete.
+    typedel: Do you want to delete the Data Type
+    purge: purge
+    noservice: Web Service not aviable
+    equalfunc: Functions with equal names
+    updateuriok: The URIs of all Web Services has been update sucessfull.
+    updateurierror: The URIs of all Web Services has not been update sucessfull.
+
+actions:
+    edit: Edit Web Service
+    editType: Edit Data Type
+    back: Back to the list
+    contrate: Show contrate
+    accept: Acept contrate
+    update: Update
+    
+form:
+    type: Type
+    name: Name
+    addAtrib: Add atribute
+    save: Save
+    isActive: Publish
+    isToken: Token
+    isUser: User and Password
+    return: Return
+    method: Method 
+    addParam: Add param
+    security: Security
+    tokens: List of Token
+    users: List of Users
+
+language:
+    init: Language
+    es: Spanish
+    en: Inglish

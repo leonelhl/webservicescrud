@@ -1,0 +1,27 @@
+{% extends 'WebServiceBundle:Default:base.html.twig' %}
+{% block body %}
+<div class="container">
+        <div class="row">
+            <div class="col-lg-6"><h2>Editar Usuario de Servicio Web</h2></div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-lg-10 col-offset-1">
+{{ form_start(edit_form) }}
+{{ form_row(edit_form.username) }}
+{{ form_row(edit_form.password) }}
+<br>
+{{ form_widget(edit_form.submit, {'label':'Actualizar', 'attr':{'class':'btn btn-primary'}}) }}
+{{ form_rest(edit_form) }}
+{{ form_end(edit_form) }}
+<br>
+<a href="{{path('users')}}" class="btn btn-default">Volver al listado</a>
+{{ form_start(delete_form, {'attr': {'style':'display:inline' } } ) }}
+{{ form_widget(delete_form.submit,{'attr': {'class':'btn btn-primary' } }  ) }}
+{{ form_rest(delete_form) }}
+{{ form_end(delete_form) }}
+</ul>
+</div>
+</div>
+</div>
+{% endblock %}

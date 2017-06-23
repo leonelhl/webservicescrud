@@ -1,0 +1,4 @@
+start_soap:
+    pattern: /webservices/{name}
+    defaults: { _controller: WebServiceBundle:Server:soap }
+    requirements: { _method: get|post }
